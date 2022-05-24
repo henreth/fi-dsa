@@ -1,5 +1,21 @@
 function selectionSort(arr) {
-  // type your code here
+  const sorted = [];
+
+  while (arr.length > 0) {
+    // use spread operator to find the minimum value of the existing array
+    const min = Math.min(...arr);
+
+    // find the index of the minimum 
+    const idx = arr.indexOf(min);
+
+    // put that minimum into a new array
+    sorted.push(min);
+    // remove the presence of the previous minimum
+    arr.splice(idx, 1);
+    //run until the length of the original array, arr is 0
+  }
+
+  return sorted;
 }
 
 if (require.main === module) {
