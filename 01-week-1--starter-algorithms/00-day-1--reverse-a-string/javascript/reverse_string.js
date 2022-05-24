@@ -1,5 +1,12 @@
 function reverseString(str) {
   // type your code here
+  //easy solution:
+  // return str.split('').reverse().join('')
+  // not using .reverse()
+
+  let rev = ''
+  for (let char of str) rev = char + rev
+  return rev
 }
 
 if (require.main === module) {
