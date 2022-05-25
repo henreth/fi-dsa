@@ -1,5 +1,11 @@
 function balancingParentheses(string) {
-  // type your code here
+  let count = 0;
+  string.split('').forEach(char=>{
+    if (char==='(')count--
+    else if (char===')') count++
+  })
+
+  return count
 }
 
 if (require.main === module) {
