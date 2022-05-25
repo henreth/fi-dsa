@@ -1,5 +1,16 @@
 function selectionSortRecursive(arr) {
-  // type your code here
+  if (arr.length === 0) return [];
+  
+    // use spread operator to find the minimum value of the existing array
+    const min = Math.min(...arr);
+    // find the index of the minimum 
+    const idx = arr.indexOf(min);
+    // remove the presence of the previous minimum
+    arr.splice(idx, 1);
+    //run until the length of the original array, arr is 0
+    let res = selectionSortRecursive(arr)
+    res.unshift(min)
+    return res
 }
 
 if (require.main === module) {
