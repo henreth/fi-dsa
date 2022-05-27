@@ -5,6 +5,9 @@ function distinctPairSum(arr, k) {
     const nextValue = arr[idx + 1];
 
     if (num + nextValue === k && pairs[num] === undefined && pairs[nextValue] === undefined) { 
+        // if the pair sums to k, and the pair is not pairs
+        // add a key to pairs where the num is the key and the value is the pair
+        // this can be used to verify if later pairs have already been found
         pairs[num] = [num, nextValue];
     }
   });
