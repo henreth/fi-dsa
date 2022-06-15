@@ -1,6 +1,27 @@
 class LinkedList {
   constructor(head = null) {
     this.head = head;
+    this.tail = null;
+    this.size = 0;
+    // worst case O(n) for setting tail on initializing new list
+    this.setTailAndSize();
+  }
+
+  // helper method for setting tail when list goes from empty to not empty
+  // upon initialization
+  // will be O(n) because user could add Node connected to other Nodes
+  setTailAndSize() {
+    this.size = 0;
+
+    this.iterate((node) => {
+      this.tail = node;
+      this.updateSize('+');
+    });
+  }
+
+  // helper method for updating size
+  updateSize(operation) {
+    operation === '+' ? ++this.size : --this.size;
   }
 
   iterate(callback) {
@@ -45,24 +66,42 @@ class LinkedList {
 
   // add the node to the start of the list, no nodes should be removed
   addFirst(node) {
+    // O(1) operation: the tail will only be set if the list is empty
+    if (this.head === null) {
+      this.tail = node;
+    }
+
     node.next = this.head;
     this.head = node;
+
+    // increase size: O(1)
+    this.updateSize('+');
   }
 
   // add node to end of list, no nodes should be removed
   // you may wish to use the iterate method
   addLast(node) {
     if (this.head === null) {
-      this.head = node;
+      this.addFirst(node);
       return;
     }
 
-    this.iterate(currNode => {
-      if (currNode.next === null) {
-        currNode.next = node;
-        return true;
-      }
-    });
+    this.tail.next = node;
+    // O(1) operation to set tail
+    this.tail = node;
+    // increase size: O(1)
+    this.updateSize('+');
+
+    // if (this.head === null) {
+    //   this.head = node;
+    // }
+
+    // this.iterate(currNode => {
+    //   if (currNode.next === null) {
+    //     currNode.next = node;
+    //     return true;
+    //   }
+    // });
   }
 
   // remove the first Node in the list and update head
@@ -72,6 +111,12 @@ class LinkedList {
 
     if (this.head !== null) {
       this.head = this.head.next;
+      this.updateSize('-');
+    }
+
+    // if list goes from 1 Node to empty, update tail O(1)
+    if (this.head === null) {
+      this.tail = null;
     }
 
     return oldHead;
@@ -94,6 +139,10 @@ class LinkedList {
       }
     });
 
+    // Could also set the tail inside iterate above
+    // O(n) operation
+    this.setTailAndSize();
+
     return oldTail;
   }
 
@@ -109,6 +158,11 @@ class LinkedList {
       if (count === idx - 1) {
         node.next = currNode.next.next;
         currNode.next = node;
+
+        // If tail is being replaced O(1)
+        if (node.next === null) {
+          this.tail = node;
+        }
 
         return true;
       }
@@ -131,9 +185,16 @@ class LinkedList {
         currNode.next = node;
         node.next = oldNext;
 
+        // if new node is inserted at the very end, O(1)
+        if (oldNext === null) {
+          this.tail = node;
+        }
+
         return true;
       }
     });
+
+    this.updateSize('+');
   }
 
   // remove the node at the given index, and return it
@@ -148,16 +209,25 @@ class LinkedList {
       if (count === idx - 1) {
         oldNode = node.next;
         node.next = node.next.next;
+        // if tail was removed, update tail
+        if (node.next === null) {
+          this.tail = node;
+        }
 
         return true;
       }
     }); 
+
+    this.updateSize('-');
 
     return oldNode;
   }
 
   clear() {
     this.head = null;
+    // null tail for empty list
+    this.tail = null;
+    this.size = 0;
   }
 }
 
