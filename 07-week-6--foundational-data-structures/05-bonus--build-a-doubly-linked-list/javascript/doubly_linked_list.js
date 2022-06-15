@@ -44,13 +44,20 @@ class DoublyLinkedList {
   }
 
   // add the node to the start of the list, no nodes should be removed
+  // MODIFY TO UPDATE PREV
   addFirst(node) {
     node.next = this.head;
+
+    if (this.head !== null) {
+      this.head.prev = node;
+    }
+    
     this.head = node;
   }
 
   // add node to end of list, no nodes should be removed
   // you may wish to use the iterate method
+  // MODIFY TO UPDATE PREV
   addLast(node) {
     if (this.head === null) {
       this.head = node;
@@ -60,6 +67,7 @@ class DoublyLinkedList {
     this.iterate(currNode => {
       if (currNode.next === null) {
         currNode.next = node;
+        node.prev = currNode;
         return true;
       }
     });
@@ -67,11 +75,16 @@ class DoublyLinkedList {
 
   // remove the first Node in the list and update head
   // and return the removed node
+  // MODIFY TO UPDATE PREV
   removeFirst() {
     const oldHead = this.head;
 
     if (this.head !== null) {
       this.head = this.head.next;
+    }
+
+    if (this.head !== null) {
+      this.head.prev = null;
     }
 
     return oldHead;
@@ -98,6 +111,7 @@ class DoublyLinkedList {
   }
 
   // replace the node at the given index with the given node
+  // MODIFY TO UPDATE PREV
   replace(idx, node) {
     if (idx === 0) {
       this.removeFirst();
@@ -109,6 +123,11 @@ class DoublyLinkedList {
       if (count === idx - 1) {
         node.next = currNode.next.next;
         currNode.next = node;
+        node.prev = currNode;
+
+        if (currNode.next.next !== null) {
+          currNode.next.next.prev = node;
+        } 
 
         return true;
       }
@@ -119,6 +138,7 @@ class DoublyLinkedList {
 
   // insert the node at the given index
   // no existing nodes should be removed or replaced
+  // MODIFY TO UPDATE PREV
   insert(idx, node) {
     if (idx === 0) {
       this.addFirst(node);
@@ -130,6 +150,11 @@ class DoublyLinkedList {
         const oldNext = currNode.next;
         currNode.next = node;
         node.next = oldNext;
+        node.prev = currNode;
+
+        if (oldNext !== null) {
+          oldNext.prev = node;
+        }
 
         return true;
       }
@@ -137,6 +162,7 @@ class DoublyLinkedList {
   }
 
   // remove the node at the given index, and return it
+  // MODIFY TO UPDATE PREV
   remove(idx) {
     if (idx === 0) {
       return this.removeFirst();
@@ -148,6 +174,10 @@ class DoublyLinkedList {
       if (count === idx - 1) {
         oldNode = node.next;
         node.next = node.next.next;
+
+        if (node.next !== null) {
+          node.next.prev = node;
+        }
 
         return true;
       }
@@ -162,9 +192,10 @@ class DoublyLinkedList {
 }
 
 class Node {
-  constructor(value = null, next = null) {
+  constructor(value = null, next = null, prev = null) {
     this.value = value;
     this.next = next;
+    this.prev = prev;
   }
 }
 
