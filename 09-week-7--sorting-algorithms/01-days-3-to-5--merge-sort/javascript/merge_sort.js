@@ -1,9 +1,21 @@
 function merge(arr1, arr2) {
-  // type your code here
+  let result =[]
+  while(arr1.length && arr2.length){
+    result.push((arr1[0] < arr2[0]) ? arr1.shift() : arr2.shift());
+  }
+  return [...result, ...arr1, ...arr2];
 }
 
+
+console.log('=> [-2, 0, 1, 4]')
+console.log(merge([0, 1], [-2, 4]))
+
 function mergeSort(arr) {
-  // type your code here
+  if (arr.length < 2 ) return arr 
+  let mid = Math.floor(arr.length/2)
+  let left = mergeSort(arr.slice(0,mid))
+  let right = mergeSort(arr.slice(mid,))
+  return merge(left,right)
 }
 
 if (require.main === module) {
