@@ -1,11 +1,12 @@
 function reverseString(str) {
-  // type your code here
+  if (str.length === 1) return str
+  return str[str.length-1] + reverseString(str.slice(0,str.length-1))
 }
 
 if (require.main === module) {
   // add your own tests in here
   console.log("Expecting: 'ih'");
-  console.log("=>", reverseString('ih'));
+  console.log("=>", reverseString('hi'));
 
   console.log("");
 
