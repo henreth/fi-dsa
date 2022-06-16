@@ -7,7 +7,20 @@ class Node {
 }
 
 function levelOrderTraversal(root) {
-  // type your code here
+  let queue = root !== null ? [root] : [];
+  let result = [];
+
+  while (queue.length) {
+    const node = queue.shift();
+
+    result.push(node);
+
+    if (node.left) queue.push(node.left);
+  
+    if (node.right) queue.push(node.right);
+  }
+
+  return result.map(node => node.value);
 }
 
 if (require.main === module) {
