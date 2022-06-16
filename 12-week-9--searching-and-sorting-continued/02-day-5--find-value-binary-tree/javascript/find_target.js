@@ -7,7 +7,19 @@ class Node {
 }
 
 function findTarget(root, target) {
-  // type your code here
+  if (!root) {
+    return null;
+  }
+
+  if (root.value === target) {
+    return root;
+  }
+
+  if (root.value > target) {
+    return findTarget(root.left, target);
+  } else {
+    return findTarget(root.right, target);
+  }
 }
 
 if (require.main === module) {
