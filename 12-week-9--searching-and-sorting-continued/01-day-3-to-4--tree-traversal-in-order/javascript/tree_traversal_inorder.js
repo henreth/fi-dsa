@@ -7,7 +7,15 @@ class Node {
 }
 
 function treeTraversalInorder(root) {
-  // type your code here
+  if (root === null) {
+    return [];
+  }
+
+  treeTraversalInorder(root.left, result);
+  result.push(root.value);
+  treeTraversalInorder(root.right, result);
+
+  return result;
 }
 
 if (require.main === module) {
